@@ -3,21 +3,19 @@ import 'package:flutter/material.dart';
 class FilterItem extends StatelessWidget {
   const FilterItem({
     super.key,
-    required this.toggle,
-    required this.status,
     required this.title,
-    required this.subTitle,
+    required this.value,
+    required this.toggle,
   });
 
   final String title;
-  final String subTitle;
-  final bool status;
+  final bool value;
   final void Function() toggle;
 
   @override
   Widget build(BuildContext context) {
     return SwitchListTile(
-      value: status,
+      value: value,
       onChanged: (val) {
         toggle();
       },
@@ -28,7 +26,7 @@ class FilterItem extends StatelessWidget {
             ),
       ),
       subtitle: Text(
-        subTitle,
+        'Only include ${title.toLowerCase()} meals',
         style: Theme.of(context).textTheme.labelMedium!.copyWith(
               color: Theme.of(context).colorScheme.onBackground,
             ),

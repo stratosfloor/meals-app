@@ -11,7 +11,10 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  var _glutenFreeFilterSet = false;
+  bool _glutenFreeFilterSet = false;
+  bool _lactoseFreeFilterSet = false;
+  bool _vegetarianFilterSet = false;
+  bool _veganFilterSet = false;
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +26,40 @@ class _FiltersScreenState extends State<FiltersScreen> {
         children: [
           FilterItem(
             title: 'Gluten-free',
-            subTitle: 'Only include gluten-free meals.',
-            status: _glutenFreeFilterSet,
+            value: _glutenFreeFilterSet,
             toggle: () {
               setState(() {
                 _glutenFreeFilterSet = !_glutenFreeFilterSet;
               });
             },
-          )
+          ),
+          FilterItem(
+            title: 'Lacto-free',
+            value: _lactoseFreeFilterSet,
+            toggle: () {
+              setState(() {
+                _lactoseFreeFilterSet = !_lactoseFreeFilterSet;
+              });
+            },
+          ),
+          FilterItem(
+            title: 'Vegetarian',
+            value: _vegetarianFilterSet,
+            toggle: () {
+              setState(() {
+                _vegetarianFilterSet = !_vegetarianFilterSet;
+              });
+            },
+          ),
+          FilterItem(
+            title: 'Vegan',
+            value: _veganFilterSet,
+            toggle: () {
+              setState(() {
+                _veganFilterSet = !_veganFilterSet;
+              });
+            },
+          ),
         ],
       ),
     );
