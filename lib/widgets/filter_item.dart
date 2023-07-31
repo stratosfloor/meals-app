@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meals_app/provider/filter_provider.dart';
 
-class FilterItem extends StatelessWidget {
+class FilterItem extends ConsumerWidget {
   const FilterItem({
     super.key,
+    required this.filter,
     required this.title,
     required this.value,
-    required this.toggle,
   });
 
+  final Filter filter;
   final String title;
   final bool value;
-  final void Function() toggle;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SwitchListTile(
       value: value,
-      onChanged: (val) {
-        toggle();
+      onChanged: (isChecked) {
+        ref.read(filtersProvider.notifier).setFilter(filter, isChecked);
       },
       title: Text(
         title,
