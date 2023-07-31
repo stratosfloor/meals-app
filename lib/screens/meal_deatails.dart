@@ -32,7 +32,9 @@ class MealDetailsScreen extends ConsumerWidget {
                   ),
                 );
               },
-              icon: Icon(Icons.star))
+              icon: ref.watch(favoriteMealsProvider).contains(meal)
+                  ? const Icon(Icons.star)
+                  : const Icon(Icons.star_outline))
         ],
       ),
       body: Padding(
