@@ -5,8 +5,7 @@ import 'package:meals_app/screens/categories.dart';
 import 'package:meals_app/screens/filters.dart';
 import 'package:meals_app/screens/meals.dart';
 import 'package:meals_app/widgets/main_drawer.dart';
-
-import '../models/meal.dart';
+import 'package:meals_app/provider/favorites_provider.dart';
 
 const kInitialFilters = {
   Filter.glutenFree: false,
@@ -26,7 +25,6 @@ class TabsSCreen extends ConsumerStatefulWidget {
 
 class _TabsscreenState extends ConsumerState<TabsSCreen> {
   int _selectedPageIndex = 0;
-  final List<Meal> _favoritesMeals = [];
   Map<Filter, bool> _selectedFilters = kInitialFilters;
 
   void _selectPage(int index) {
@@ -52,29 +50,6 @@ class _TabsscreenState extends ConsumerState<TabsSCreen> {
     }
   }
 
-  void _showInfoMessage(String message) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-      ),
-    );
-  }
-
-  void _toggleMealFavorite(Meal meal) {
-    if (_favoritesMeals.contains(meal)) {
-      setState(() {
-        _favoritesMeals.remove(meal);
-        _showInfoMessage('Meal no longer in favorites');
-      });
-    } else {
-      setState(() {
-        _favoritesMeals.add(meal);
-        _showInfoMessage('Meal added to favorites');
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final meals = ref.watch(mealsProvider);
@@ -95,15 +70,14 @@ class _TabsscreenState extends ConsumerState<TabsSCreen> {
     }).toList();
 
     Widget activePage = CategoriesScreen(
-      onToggleFavorite: _toggleMealFavorite,
       availableMeals: availableMeals,
     );
     var activePageTitle = 'Categories';
 
     if (_selectedPageIndex == 1) {
+      final favoritesMeals = ref.watch(favoriteMealsProvider);
       activePage = MealsScreen(
-        meals: _favoritesMeals,
-        onToggleFavorite: _toggleMealFavorite,
+        meals: favoritesMeals,
       );
       activePageTitle = 'Favorites';
     }
