@@ -14,28 +14,48 @@ class MealDetailsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    bool isFavorite = ref.watch(favoriteMealsProvider).contains(meal);
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(meal.title),
-        actions: [
-          IconButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).clearSnackBars();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(ref
-                            .read(favoriteMealsProvider.notifier)
-                            .toggleMealFavoriteStatus(meal)
-                        ? 'Meal added as favorite'
-                        : 'Meal removed'),
-                  ),
-                );
-              },
-              icon: ref.watch(favoriteMealsProvider).contains(meal)
-                  ? const Icon(Icons.star)
-                  : const Icon(Icons.star_outline))
-        ],
-      ),
+      appBar: AppBar(title: Text(meal.title), actions: [
+        IconButton(
+          onPressed: () {
+            ScaffoldMessenger.of(context).clearSnackBars();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(ref
+                        .read(favoriteMealsProvider.notifier)
+                        .toggleMealFavoriteStatus(meal)
+                    ? 'Meal added as favorite'
+                    : 'Meal removed'),
+              ),
+            );
+          },
+          icon: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 200),
+            transitionBuilder: (child, animation) {
+              // return RotationTransition(
+              //   turns: Tween<double>(
+              //     begin: 0.8,
+              //     end: 1,
+              //   ).animate(animation),
+              //   child: child,
+              // );
+              return FadeTransition(
+                opacity: Tween<double>(
+                  begin: 0,
+                  end: 1.0,
+                ).animate(animation),
+                child: child,
+              );
+            },
+            child: Icon(
+              isFavorite ? Icons.star : Icons.star_outline,
+              key: ValueKey(isFavorite),
+            ),
+          ),
+        ),
+      ]),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: ListView(children: [
