@@ -59,11 +59,14 @@ class MealDetailsScreen extends ConsumerWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: ListView(children: [
-          Image(
-            image: NetworkImage(meal.imageUrl),
-            height: 300,
-            width: double.infinity,
-            fit: BoxFit.cover,
+          Hero(
+            tag: meal.id,
+            child: Image(
+              image: NetworkImage(meal.imageUrl),
+              height: 300,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
           ),
           const SizedBox(height: 14),
           Text(
